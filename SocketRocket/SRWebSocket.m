@@ -381,6 +381,15 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
         return;
     }
 
+    if (responseCode >= 300 && responseCode < 400) {
+        NSString *locationHeader = CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(_receivedHTTPHeaders, CFSTR("Location")));
+        if (locationHeader) {
+            NSError *error = SRHTTPErrorWithCodeDescription(responseCode, 2135, locationHeader);
+            [self _failWithError:error];
+            return;
+        }
+    }
+
     if(![self _checkHandshake:_receivedHTTPHeaders]) {
         NSError *error = SRErrorWithCodeDescription(2133, @"Invalid Sec-WebSocket-Accept response.");
         [self _failWithError:error];
