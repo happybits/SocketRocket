@@ -71,8 +71,7 @@ extern NSString *_Nullable SRStreamNetworkServiceTypeFromURLRequest(NSURLRequest
             networkServiceType = NSStreamNetworkServiceTypeCallSignaling;
             break;
 #endif
-        case NSURLNetworkServiceTypeAVStreaming:
-        case NSURLNetworkServiceTypeResponsiveAV:
+        default:
             break;
     }
     return networkServiceType;
